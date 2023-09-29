@@ -9,16 +9,21 @@ from docx.shared import Pt
 import locale
 
 
-
 class CriarDocumentos:
     locale.setlocale(locale.LC_MONETARY, '')
     
-    def __init__(self, documentos:list, criarPDF:bool):
+    def __init__(self, documentos:list, base_dados, criarPDF:bool = False):
+        self.base_dados = base_dados
+        
         self.diretorio_para_salvar = 'Documentos Criados'
         self.nome_documentos:list = documentos
+        
         self.criar_pdf = criarPDF
+        
         self.relacao_dataframe = self.dados_dataframe()
         self.relacao_individual_funcionario:list[tuple[dict, str]] = list()
+        
+        self.analisar_delimitadores()
         
         self.relacao_informacoes()
         self.separacao_criacao_documentos()
@@ -40,7 +45,7 @@ class CriarDocumentos:
 
         
     def dados_dataframe(self):
-        pl_df = pd.read_excel(r'base.xlsx')
+        pl_df = pd.read_excel(self.base_dados)
         pl_df = pl_df.sort_values(['NOME'])
         pl_df = pl_df.dropna(how='any')
         return pl_df
@@ -64,16 +69,19 @@ class CriarDocumentos:
             self.relacao_individual_funcionario.append((relacao, movimentacao.strip()))
             
 
-    def separacao_criacao_documentos(self):
-        for relacao, movimentacao in self.relacao_individual_funcionario:
-            print(relacao, movimentacao)
+    # def separacao_criacao_documentos(self):
+    #     for relacao, movimentacao in self.relacao_individual_funcionario:
+    #         print(relacao, movimentacao)
             
-            match movimentacao:
-                case "PROMOÇÃO":
-                    self.criar_documento(doc_nome=self.nome_documentos[1], dados=relacao, nome_doc = 'PROMOÇÃO')
-                case "Mudança de função": 
-                    self.criar_documento(doc_nome=self.nome_documentos[0], dados=relacao, nome_doc='Mudança de função')
+    #         match movimentacao:
+    #             case "PROMOÇÃO":
+    #                 self.criar_documento(doc_nome=self.nome_documentos[1], dados=relacao, nome_doc = 'PROMOÇÃO')
+    #             case "Mudança de função": 
+    #                 self.criar_documento(doc_nome=self.nome_documentos[0], dados=relacao, nome_doc='Mudança de função')
                     
+    def analisar_delimitadores(self):
+        ...        
+        
                     
     def criar_documento(self,doc_nome:str, dados:dict, nome_doc:str):
         doc_base = docx.Document(doc_nome)
@@ -103,5 +111,6 @@ class CriarDocumentos:
         
         
 if __name__ =='__main__':
-    app = CriarDocumentos(documentos=[r'MOVIMENTAÇÃO DE PESSOAL - MUDANÇA DE FUNÇÃO.docx', r'MOVIMENTAÇÃO DE PESSOAL - PROMOÇÃO.docx'], criarPDF=True)
+    app = CriarDocumentos(documentos=[r'MOVIMENTAÇÃO DE PESSOAL - MUDANÇA DE FUNÇÃO.docx', r'MOVIMENTAÇÃO DE PESSOAL - PROMOÇÃO.docx'], criarPDF=True, base_dados=r'base.xlsx')
     
+## CRIAR ALGORITMO PARA ANALISAR UM DOCX E VER, DEFININDO O DELIMITADOR ANTES "==", QUAIS SAO. DEPOIS, CRIAR UM DICT CONTENDO O DELIMITADOR E RESPECTIVAMENTE OS DADOS QUE POSSUEM O MESMO NOME NA COLUNA DA BASE.XLSX
