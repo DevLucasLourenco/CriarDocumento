@@ -9,7 +9,8 @@ from docx.shared import Pt
 import locale
 
 
-class CriarDocumentos:
+
+class SimSalabim:
     locale.setlocale(locale.LC_MONETARY, '')
     
     def __init__(self, documentos:list, base_dados, criarPDF:bool = False):
@@ -111,6 +112,6 @@ class CriarDocumentos:
         
         
 if __name__ =='__main__':
-    app = CriarDocumentos(documentos=[r'MOVIMENTAÇÃO DE PESSOAL - MUDANÇA DE FUNÇÃO.docx', r'MOVIMENTAÇÃO DE PESSOAL - PROMOÇÃO.docx'], criarPDF=True, base_dados=r'base.xlsx')
+    app = SimSalabim(documentos=[r'MOVIMENTAÇÃO DE PESSOAL - MUDANÇA DE FUNÇÃO.docx', r'MOVIMENTAÇÃO DE PESSOAL - PROMOÇÃO.docx'], criarPDF=True, base_dados=r'base.xlsx')
     
 ## CRIAR ALGORITMO PARA ANALISAR UM DOCX E VER, DEFININDO O DELIMITADOR ANTES "==", QUAIS SAO. DEPOIS, CRIAR UM DICT CONTENDO O DELIMITADOR E RESPECTIVAMENTE OS DADOS QUE POSSUEM O MESMO NOME NA COLUNA DA BASE.XLSX
