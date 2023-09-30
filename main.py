@@ -9,7 +9,6 @@ from docx.shared import Pt
 import locale
 
 
-
 class SimSalabim:
     locale.setlocale(locale.LC_MONETARY, '')
     
