@@ -82,7 +82,7 @@ class SimSalabim:
             texto = paragrafo.text
             
             correspondencias = re.findall(regex, texto)
-            self.regex_delimitados.extend(correspondencias)            
+            self.regex_delimitados.extend({f"=={correspondencias}==":correspondencias})
         
                     
     def criar_documento(self, dados:dict, nome_doc:str):
@@ -108,7 +108,7 @@ class SimSalabim:
                                     run.bold = True
                                     run.font.name = self.fonte_letra
 
-        doc_base_dc.save(Path(f'{self.diretorio_para_salvar}/{dados.get("==NOME==")} - {nome_doc}.docx'))            
+        # doc_base_dc.save(Path(f'{self.diretorio_para_salvar}/{dados.get("==NOME==")} - {nome_doc}.docx')) # alterar isso do nome
         
         
         
